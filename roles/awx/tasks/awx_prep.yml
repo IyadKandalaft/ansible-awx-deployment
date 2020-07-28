@@ -1,0 +1,41 @@
+
+- name: Clone awx repository
+  git:
+    repo: "{{ awx_repository }}"
+    dest: "{{ awx_ansible_dest }}"
+    version: "{{ awx_version }}"
+    force: yes
+
+- name: Setup ansible inventory file for AWX deployment
+  template:
+    src: templates/inventory.j2
+    dest: "{{ awx_ansible_dest }}/installer/inventory"
+    owner: root
+    group: root
+    mode: '0640'
+
+- name: Generate an OpenSSL private key
+  openssl_privatekey:
+    path: "{{ awx_ssl_key }}"
+  when: awx_ssl_generate_selfsigned | bool
+
+- name: Create CSR target directory
+  file:
+    path: /etc/ssl/csr/
+    state: directory
+  when: awx_ssl_generate_selfsigned | bool
+
+- name: Generate an OpenSSL certificate signing request
+  openssl_csr:
+    path: /etc/ssl/csr/awx.csr
+    privatekey_path: "{{ awx_ssl_key }}"
+    common_name: "{{ awx_server_hostname }}"
+  when: awx_ssl_generate_selfsigned | bool
+
+- name: Create self-signed certificate
+  openssl_certificate:
+    path: "{{ awx_ssl_cert }}"
+    privatekey_path: "{{ awx_ssl_key }}"
+    csr_path: /etc/ssl/csr/awx.csr
+    provider: selfsigned
+  when: awx_ssl_generate_selfsigned | bool

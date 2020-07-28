@@ -1,0 +1,17 @@
+---
+- name: Update and upgrade all packages
+  apt:
+    upgrade: yes
+    update_cache: yes
+
+- name: Remove dependencies that are no longer required 
+  apt:
+    autoremove: yes
+
+- name: Add local users
+  user:
+    name: "{{ item }}"
+    state: present
+    password: $1$SomeSalt$TGMP/yEpwrTC5jO8X4F1l.
+    update_password: on_create
+  with_items: "{{ os_add_users }}"

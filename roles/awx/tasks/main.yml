@@ -1,0 +1,12 @@
+---
+- name: Including tasks to install AWX dependencies
+  include_tasks:
+    file: dependencies.yml
+
+- name: Prepare AWX ansible installer
+  include_tasks:
+    file: awx_prep.yml
+
+- name: Trigger AWX ansible installer
+  include_tasks:
+    file: awx_install.yml

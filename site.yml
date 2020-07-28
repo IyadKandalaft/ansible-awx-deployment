@@ -1,0 +1,8 @@
+---
+- hosts: all
+  vars_prompt:
+  roles: 
+    - role: base
+      become: yes
+    - role: awx
+      become: yes

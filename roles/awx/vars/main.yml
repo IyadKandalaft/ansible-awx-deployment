@@ -1,0 +1,33 @@
+awx_dependencies:
+  - ansible
+  - python3-docker
+  - python3
+  - nodejs
+  - npm
+  - make
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - software-properties-common
+  - python3-pip
+  - virtualenv
+  - python3-setuptools
+
+awx_repository: "https://github.com/ansible/awx.git"
+
+awx_version: "11.2.0"
+
+awx_ansible_dest: /awx
+
+awx_db_user: awx
+awx_db_password: cV2!ksDFn37p
+
+awx_admin_user: admin
+awx_admin_password: Hac23$kOnS3e
+
+awx_ssl_enable: true
+awx_ssl_generate_selfsigned: true
+awx_ssl_cert: /etc/ssl/private/awx.crt
+awx_ssl_key: /etc/ssl/private/awx.key
+
+awx_server_hostname: ansible.nterone.com
